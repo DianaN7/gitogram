@@ -1,0 +1,54 @@
+.stories {
+  padding: 5px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 174px;
+}
+
+.icon__wrapper{
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-left: 25px;
+  color: #262626;
+  width: 25px;
+}
+
+.avatar {
+  width: 44px;
+  overflow: hidden;
+  margin-right: 14px;
+}
+
+.c-story-user-item{
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.username {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.comments {
+  margin: 10px 0;
+}
+
+.date {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgba(0,0,0,0.4);
+}
+
+.post-text{
+  margin-bottom: 13px;
+}

@@ -1,0 +1,25 @@
+.avatar{
+  border-radius: 50%;
+  border: #A6328D solid 2px;
+  width: 90px;
+  height: 90px;
+  padding: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+
+  &:hover {
+    border-color: #ffff;
+    transition: 0.3s all;
+  }
+
+  &--active {
+    border-color:#A6328D;
+  }
+}
+
+.img{
+  border-radius: 50%; //убрать бордер радиус при загрузке ориг.иконок
+  width: 100%;
+  height: 100%;
+  object-fit: cover
+}
