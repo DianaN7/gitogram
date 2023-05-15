@@ -5,6 +5,11 @@
   display: flex;
   justify-content: space-between;
 }
+.stories-item {
+  &:not(:last-child) {
+      margin-right: 30px;
+  }
+}
 
 .logo {
   width: 174px;
@@ -25,6 +30,13 @@
   width: 44px;
   overflow: hidden;
   margin-right: 14px;
+}
+.avatar-block {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
 }
 
 .c-story-user-item{
@@ -51,4 +63,9 @@
 
 .post-text{
   margin-bottom: 13px;
+}
+.stories-item-name {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 40px;
 }

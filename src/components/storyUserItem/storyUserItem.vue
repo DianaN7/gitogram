@@ -1,9 +1,9 @@
 <template>
-  <button class="c-story-user-item" @click="$emit('onPress')">
-    <div class="avatar">
-      <img :src="avatar" alt="username avatar" class="img" />
-    </div>
-    <div class="username">{{ username }}</div>
+  <button class="c-story-user-item">
+      <div :class="['avatar', {'bordered' : active}]">
+        <img :src="avatar" alt="username avatar" class="img" />
+      </div>
+      <div class="username">{{ username }}</div>
   </button>
 </template>
 
@@ -17,8 +17,10 @@ export default {
     username: {
       type: String,
       required: true
-    }
+    },
+    active: Boolean
   }
 }
 </script>
-<style lang="scss" src="./storyUserItem.scss" scoped></style>
+
+<style src="./storyUserItem.scss" lang="scss" scoped></style>
