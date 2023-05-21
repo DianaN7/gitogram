@@ -1,10 +1,11 @@
 <template>
   <div class="topline">
-    <topline>
+    <div class="x-container">
+      <topline>
         <template #headline>
-          <div class="logo">
-            <img src="../../assets/Gitogram.svg" alt="logo">
-          </div>
+          <a href="./feeds.vue" class="logo">
+            <logo />
+          </a>
           <div class="icon__wrapper">
             <div class="icon">
               <icon name="home" />
@@ -19,30 +20,31 @@
         </template>
         <template #content>
           <ul class="stories">
-            <li class="stories-item" v-for="story in stories" :key="story.id">
+            <li class="stories-item" v-for="{ id, owner, name } in trendings" :key="id">
               <story-user-item
-              :avatar="story.avatar"
-              :username="story.username"
+              :avatar="owner.avatar_url"
+              :username="name"
+              @storyPress="$router.push({name: 'stories', params: {initialSlide: id}})"
               active
               class="stories-item-name"
               />
             </li>
           </ul>
         </template>
-    </topline>
+      </topline>
+    </div>
   </div>
-  <div class="container">
+  <main class="container">
     <post-user>
       <template #postHead>
         <story-user-item
         :avatar="avatar"
-        :username="'joshua_l'"
+        :username="nameU"
         class="avatar-block"
         />
       </template>
       <template #postContent>
-        <h2 class="post-title">Vue.js</h2>
-        <p class="post-text"><b>JavaScript</b> framework for building interactive web applications ⚡</p>
+        <postContent :title="title[0]" :text="text[0]" />
         <user-buttons />
       </template>
       <template #postToggle>
@@ -61,8 +63,7 @@
         />
       </template>
       <template #postContent>
-        <h2 class="post-title">React.js</h2>
-        <p class="post-text"><b>Open source</b> JavaScript library used for designing user interfaces</p>
+        <postContent :title="title[1]" :text="text[1]" />
         <user-buttons />
       </template>
       <template #postToggle>
@@ -72,17 +73,19 @@
         <strong class="date">15 may</strong>
       </template>
     </post-user>
-  </div>
+  </main>
 </template>
 
 <script>
-import { topline } from '../../components/topline'
+import { topline } from '../../components/topline/'
 import { storyUserItem } from '../../components/storyUserItem'
-import stories from './data.json'
 import { icon } from '../../components/icons'
 import { postUser } from '../../components/postUser'
 import { userButtons } from '../../components/userButtons'
 import { commentsBlock } from '../../components/commentsBlock'
+import { postContent } from '../../components/postContent'
+import { logo } from '../../components/logo'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'feeds',
@@ -92,16 +95,32 @@ export default {
     icon,
     postUser,
     userButtons,
-    commentsBlock
+    commentsBlock,
+    logo,
+    postContent
   },
   data () {
     return {
-      stories,
       avatar: 'https://dummyimage.com/300',
-      nameU: 'Camilla'
+      nameU: 'Camilla',
+      title: ['Vue.js', 'React.js'],
+      text: ['JavaScript framework for building interactive web applications ⚡', 'Open source JavaScript library used for designing user interfaces']
     }
+  },
+  computed: {
+    ...mapState({
+      trendings: state => state.trendings.data
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchTrendings: 'trendings/fetchTrendings'
+    })
+  },
+  async created () {
+    await this.fetchTrendings()
   }
 }
 </script>
 
-<style lang="scss" scoped src="./feeds.scss"></style>
+<style lang="scss" src="./feeds.scss" scoped></style>

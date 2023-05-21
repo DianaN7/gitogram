@@ -1,18 +1,27 @@
 <template>
- <div class="c-container">
+  <div class="c-container" :class="{ active }">
     <div class="header">
-      <x-progress v-on:onFinish="progressEnd"/>
+      <x-progress @onFinish="$emit('onProgressFinish')" :active="localActive" />
       <story-user-item
-      :avatar="avatar"
-      :username="nameU"
+      :avatar="data.userAvatar"
+      :username="data.username"
       class="avatar"
       />
     </div>
     <div class="content">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eius eveniet voluptas adipisci accusamus unde ea fuga quisquam maxime, dolorum, quis architecto ratione odit sit corporis, aliquid eligendi aut vel!</p>
+      <div class="loader"  v-if="loading">
+        <spinner />
+      </div>
+      <div class="info" v-else>
+        <div v-if="data.content?.length" class="content-text" v-html="data.content"></div>
+        <placeholder v-else />
+      </div>
     </div>
     <div class="footer">
-      <x-button>Following</x-button>
+      <x-button
+      :loading="data.following.loading"
+      :hoverText="hText"
+      @click="$emit('OnFollow', data.id)">Follow</x-button>
     </div>
   </div>
 </template>
@@ -21,22 +30,45 @@
 import { xProgress } from '../progress'
 import { storyUserItem } from '../storyUserItem'
 import { xButton } from '../xButton'
+import { placeholder } from '../placeholder'
+import { spinner } from '../spinner'
 export default {
   name: 'slide',
   components: {
     xProgress,
     storyUserItem,
-    xButton
+    placeholder,
+    xButton,
+    spinner
+  },
+  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'OnFollow'],
+  props: {
+    active: Boolean,
+    loading: Boolean,
+    data: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    }
   },
   data () {
     return {
-      avatar: 'https://dummyimage.com/300',
-      nameU: 'Camilla'
+      hText: 'Unfollow',
+      localActive: false
     }
   },
-  methods: {
-    progressEnd () {
-      console.log('Finish')
+  mounted () {
+    if (this.active) {
+      setTimeout(() => {
+        this.localActive = true
+      }, 0)
+    } else {
+      this.localActive = false
+    }
+  },
+  watch: {
+    active () {
+      this.localActive = this.active
     }
   }
 }

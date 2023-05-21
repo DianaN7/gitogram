@@ -1,11 +1,13 @@
 <template>
   <button
+  type="button"
     :class="[
       'c-button', 'theme-green',
-      {'hover-text': withHoverText}
+      {'hover-text': withHoverText},
+      {'btn-loading': loading},
+      {'btn-disabled': disabled}
     ]"
-    :data-hover-text="hoverText"
-  >
+    :data-hover-text="hoverText">
     <span class="btn-text">
       <slot></slot>
     </span>
@@ -17,7 +19,9 @@ export default {
   props: {
     hoverText: {
       type: String
-    }
+    },
+    loading: Boolean,
+    disabled: Boolean
   },
   computed: {
     withHoverText () {

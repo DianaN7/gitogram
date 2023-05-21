@@ -1,6 +1,6 @@
-import { makeRequest } from '../requests'
+import { makeRequests } from '../requests'
 
-const addStartingZero = (value) => value < 10 ? `0${value}` : value
+const addStertingZero = (value) => value < 10 ? `0${value}` : value
 
 export const getTrendings = (lang = 'javascript') => {
   const params = new URLSearchParams()
@@ -9,8 +9,8 @@ export const getTrendings = (lang = 'javascript') => {
 
   const formattedDate = [
     weekAgo.getFullYear(),
-    addStartingZero(weekAgo.getMonth() + 1),
-    addStartingZero(weekAgo.getDate())
+    addStertingZero(weekAgo.getMonth() + 1),
+    addStertingZero(weekAgo.getDate())
   ].join('-')
 
   params.append('order', 'desc')
@@ -18,7 +18,7 @@ export const getTrendings = (lang = 'javascript') => {
   params.append('per_page', 10)
   params.append('q', `language:${lang} created:>${formattedDate}`)
 
-  return makeRequest({
+  return makeRequests({
     url: `/search/repositories?${params}`
   })
 }

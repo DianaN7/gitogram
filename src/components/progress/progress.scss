@@ -5,9 +5,10 @@
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-  &.active {
-      .indicator {
+  &.is-active {
+    .indicator {
           width: 100%;
+          transition: 10s linear;
       }
   }
 }
@@ -18,5 +19,4 @@
   left: 0;
   width: 0;
   background: #31AE54;
-  transition: 3s linear;
 }
