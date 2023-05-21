@@ -2,7 +2,7 @@
   <div class="wrapper">
     <header class="header">
       <div class="x-container">
-        <a href="../feeds/feeds.vue" class="logo">
+        <a href="https://dianan7.github.io/gitogram/dist/index.html#/" class="logo">
           <logo white />
         </a>
         <button class="close" @click="$router.push('/')">

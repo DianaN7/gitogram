@@ -3,7 +3,7 @@
     <div class="x-container">
       <topline>
         <template #headline>
-          <a href="./feeds.vue" class="logo">
+          <a href="https://dianan7.github.io/gitogram/dist/index.html#/" class="logo">
             <logo />
           </a>
           <div class="icon__wrapper">
