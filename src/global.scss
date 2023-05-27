@@ -66,12 +66,18 @@ button {
   margin: 0 auto;
 }
 
+
+.topline {
+  width: 100%;
+  background: #FAFAFA;
+  border-bottom: 1px solid #C6C6C8;}
+
 .container {
   width: 979px;
   margin: 0 auto;
   margin-top: 32px;
   background-color: inherit;
-  height: 100vh;
+  height: 100%;
 }
 
 a {

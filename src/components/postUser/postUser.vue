@@ -3,9 +3,7 @@
     <div class="postHead">
       <slot name="postHead"></slot>
     </div>
-    <div class="postContent">
-      <slot name="postContent"></slot>
-    </div>
+    <slot></slot>
     <div class="postToggle">
       <slot name="postToggle"></slot>
     </div>

@@ -3,24 +3,11 @@
     <div class="x-container">
       <topline>
         <template #headline>
-          <a href="https://dianan7.github.io/gitogram/dist/index.html#/" class="logo">
-            <logo />
-          </a>
-          <div class="icon__wrapper">
-            <div class="icon">
-              <icon name="home" />
-            </div>
-            <div class="icon">
-              <icon name="avatar" />
-            </div>
-            <div class="icon">
-              <icon name="exit" />
-            </div>
-          </div>
+          <x-header />
         </template>
         <template #content>
           <ul class="stories">
-            <li class="stories-item" v-for="{ id, owner, name } in trendings" :key="id">
+            <li class="stories-item" v-for="{ id, owner, name } in getUnstarredOnly" :key="id">
               <story-user-item
               :avatar="owner.avatar_url"
               :username="name"
@@ -35,90 +22,78 @@
     </div>
   </div>
   <main class="container">
-    <post-user>
-      <template #postHead>
-        <story-user-item
-        :avatar="avatar"
-        :username="nameU"
-        class="avatar-block"
-        />
-      </template>
-      <template #postContent>
-        <postContent :title="title[0]" :text="text[0]" />
-        <user-buttons />
-      </template>
-      <template #postToggle>
-        <comments-block />
-      </template>
-      <template #postDate>
-        <strong class="date">15 may</strong>
-      </template>
-    </post-user>
-    <post-user>
-      <template #postHead>
-        <story-user-item
-        :avatar="avatar"
-        :username="nameU"
-        class="avatar-block"
-        />
-      </template>
-      <template #postContent>
-        <postContent :title="title[1]" :text="text[1]" />
-        <user-buttons />
-      </template>
-      <template #postToggle>
-        <comments-block />
-      </template>
-      <template #postDate>
-        <strong class="date">15 may</strong>
-      </template>
-    </post-user>
+    <ul class="post">
+      <li class="post-item" v-for="{ id, owner, name, description, stargazers_count, forks_count, issues, created_at } in starred"
+        :key="id">
+        <feed
+          :issues="issues?.data"
+          :date="new Date(created_at)"
+          :loading="issues?.loading"
+          @loadContent="loadIssues({ id, owner: owner.login, repo: name })"
+        >
+        <template #postHead>
+            <story-user-item
+            :avatar="owner.avatar_url"
+            :username="owner.login"
+            class="post-head"
+            />
+          </template>
+          <template #postContent>
+            <card
+              :title="name"
+              :description="description"
+              :stars="stargazers_count"
+              :forks="forks_count"
+            ></card>
+          </template>
+        </feed>
+      </li>
+    </ul>
   </main>
 </template>
 
 <script>
 import { topline } from '../../components/topline/'
 import { storyUserItem } from '../../components/storyUserItem'
-import { icon } from '../../components/icons'
-import { postUser } from '../../components/postUser'
-import { userButtons } from '../../components/userButtons'
-import { commentsBlock } from '../../components/commentsBlock'
-import { postContent } from '../../components/postContent'
-import { logo } from '../../components/logo'
-import { mapState, mapActions } from 'vuex'
+import { feed } from '../../components/feed'
+import { card } from '../../components/card'
+import { xHeader } from '../../components/xHeader'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'feeds',
   components: {
     topline,
     storyUserItem,
-    icon,
-    postUser,
-    userButtons,
-    commentsBlock,
-    logo,
-    postContent
+    feed,
+    card,
+    xHeader
   },
   data () {
     return {
-      avatar: 'https://dummyimage.com/300',
-      nameU: 'Camilla',
-      title: ['Vue.js', 'React.js'],
-      text: ['JavaScript framework for building interactive web applications ⚡', 'Open source JavaScript library used for designing user interfaces']
+      items: []
     }
   },
   computed: {
     ...mapState({
-      trendings: state => state.trendings.data
-    })
+      trendings: state => state.trendings.data,
+      starred: (state) => state.starred.data
+    }),
+    ...mapGetters(['getUnstarredOnly'])
   },
   methods: {
     ...mapActions({
-      fetchTrendings: 'trendings/fetchTrendings'
-    })
+      fetchTrendings: 'trendings/fetchTrendings',
+      fetchStarred: 'starred/fetchStarred',
+      fetchIssuesForRepo: 'starred/fetchIssuesForRepo'
+    }),
+    loadIssues ({ id, owner, repo }) {
+      this.fetchIssuesForRepo({ id, owner, repo })
+    }
   },
   async created () {
     await this.fetchTrendings()
+    await this.fetchStarred({ limit: 10 })
   }
 }
 </script>

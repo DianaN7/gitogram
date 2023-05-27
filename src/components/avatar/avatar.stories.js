@@ -2,18 +2,20 @@ import avatar from './avatar.vue'
 
 export default {
   title: 'avatar',
-  components: { avatar },
+  components: {
+    avatar
+  },
   argTypes: {
-    username: {
-      control: { type: 'text' }
-    },
-    text: {
-      control: { type: 'text' }
+    avatarUrl: { type: 'text' },
+    size: {
+      control: { type: 'select' },
+      options: ['avatar_s', 'avatar_m', 'avatar_l']
     }
   }
 }
 
 const template = (args) => ({
+  props: Object.keys(args),
   components: {
     avatar
   },
@@ -22,14 +24,11 @@ const template = (args) => ({
       args
     }
   },
-  template: `
-    <avatar :username="args.username" :source="args.source" />
-  `
+  template: '<avatar :avatarUrl="args.avatarUrl" :size="args.size"></avatar>'
 })
 
 export const Default = template.bind({})
-
 Default.args = {
-  username: 'user name',
-  source: 'https://dummyimage.com/300'
+  avatarUrl: 'https://dummyimage.com/300',
+  size: 'avatar_s'
 }

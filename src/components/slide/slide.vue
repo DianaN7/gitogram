@@ -19,9 +19,13 @@
     </div>
     <div class="footer">
       <x-button
-      :loading="data.following.loading"
-      :hoverText="hText"
-      @click="$emit('OnFollow', data.id)">Follow</x-button>
+      :theme="data.following.status ? 'theme_grey' : 'theme_green'"
+        :hoverText="data.following.status ? 'Unfollowed' : 'Following'"
+        :loading="data.following.loading"
+        @click="$emit(data.following.status ? 'onUnFollow' : 'onFollow', data.id)"
+      >
+      {{data.following.status ? "Unfollowing" : "Followed"}}
+      </x-button>
     </div>
   </div>
 </template>
@@ -41,7 +45,7 @@ export default {
     xButton,
     spinner
   },
-  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'OnFollow'],
+  emits: ['onPrevSlide', 'onNextSlide', 'onProgressFinish', 'OnFollow', 'onUnfollow'],
   props: {
     active: Boolean,
     loading: Boolean,
@@ -53,7 +57,11 @@ export default {
   },
   data () {
     return {
-      hText: 'Unfollow',
+      hoverText: 'Unfollow',
+      size_s: 'size_s',
+      size_m: 'size_m',
+      theme_grey: 'theme_grey',
+      theme_green: 'theme_green',
       localActive: false
     }
   },
