@@ -21,7 +21,6 @@
 import { logo } from '../../components/logo'
 import { xButton } from '../../components/xButton'
 import { mapActions } from 'vuex'
-
 export default {
   components: {
     logo,
@@ -51,6 +50,5 @@ export default {
     }
   }
 }
-
 </script>
 <style src="./auth.scss" lang="scss" scoped></style>
