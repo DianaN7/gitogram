@@ -58,13 +58,9 @@ router.beforeEach(async (to, from, next) => {
     isLogged = store.getters['auth/isLogged']
   }
 
-  console.log(isLogged)
-
-  if (!isLogged && !to.name === 'auth') {
-    console.log('!isLogged && !to.name === auth')
+  if (!isLogged && to.name !== 'auth') {
     next({ name: 'auth' })
   } else if (isLogged && to.name === 'auth') {
-    console.log('isLogged && to.name === auth')
     next({ name: 'feeds' })
   } else {
     next()

@@ -31,43 +31,43 @@
 </template>
 
 <script>
-
-import { mapActions, mapState } from 'vuex'
 import { spinner } from '../../components/spinner'
 import { subscription } from '../../components/subscription'
+import { useStore, mapActions } from 'vuex'
+import { ref, computed } from 'vue'
 export default {
   name: 'Following',
   components: {
     spinner,
     subscription
   },
-  data () {
-    return {
-      loading: false,
-      error: null
+  setup () {
+    const loading = ref(false)
+    const error = ref(null)
+    const { dispatch, state } = useStore()
+    dispatch('starred/fetchStarred')
+    const fetchStarred = async () => {
+      loading.value = true
+      try {
+        await dispatch('starred/fetchStarred')
+      } catch (e) {
+        error.value = e.message
+      } finally {
+        loading.value = false
+      }
     }
-  },
-  computed: {
-    ...mapState({
-      starred: (state) => state.starred.data
-    })
+    return {
+      loading,
+      error,
+      starred: computed(() => state.starred.data),
+      fetchStarred
+    }
   },
   methods: {
     ...mapActions({
-      fetchStarred: 'starred/fetchStarred',
       starRepo: 'starred/starRepo',
       unStarRepo: 'starred/unStarRepo'
     })
-  },
-  async created () {
-    this.loading = true
-    try {
-      await this.fetchStarred()
-    } catch (e) {
-      this.error = e.message
-    } finally {
-      this.loading = false
-    }
   }
 }
 </script>

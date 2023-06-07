@@ -1,22 +1,21 @@
 <template>
   <header class="c-header">
-    <a href="https://dianan7.github.io/gitogram/dist/index.html#/"><logo class="logo" @click="$router.push({ name: 'feeds' })"
-    ></logo></a>
+    <a href="https://dianan7.github.io/gitogram/dist/index.html#/"
+    ><logo class="logo" @click="$router.push({ name: 'feeds' })"></logo
+      ></a>
     <div class="buttons">
-      <button class="icon"
-              @click="$router.push({ name: 'feeds' })">
+      <button class="icon" @click="$router.push({ name: 'feeds' })">
         <icon name="home"></icon>
       </button>
-      <button class="avatar icon"
-              @click="$router.push({ name: 'repos' })">
+      <button class="avatar icon" @click="$router.push({ name: 'repos' })" v-if="user">
         <avatar
-          :avatarUrl="user.avatar_url"
-          :username="user.login"
+          :avatarUrl="user?.avatar_url"
+          :username="user?.login"
           :size="avatar_s"
           ></avatar>
       </button>
-      <button class="icon icon_logout"
-              @click="logout">
+      <button v-if="!user" @click="$router.push({ name: 'auth'})">Home</button>
+      <button class="icon icon_logout" @click="logout">
         <icon name="exit"></icon>
       </button>
     </div>

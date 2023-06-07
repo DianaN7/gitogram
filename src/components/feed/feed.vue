@@ -7,7 +7,7 @@
       <slot name="postContent"></slot>
     </div>
     <div class="post-toggle">
-      <div class="toggler__wrap mt-18">
+      <div class="toggler__wrap">
         <toggler @onToggle="toggle"></toggler>
       </div>
       <div class="content-loader" v-if="loading">
@@ -27,6 +27,9 @@
         </ul>
         <div v-else class="no-comments">No comments</div>
       </div>
+      <div class="date">
+        <div class="day">{{ normalDate }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,14 +38,10 @@
 import { comment } from '../comment'
 import { toggler } from '../toggler'
 import { contentLoader } from '../contentLoader'
+import { ref } from 'vue'
 
 export default {
   name: 'feed',
-  data () {
-    return {
-      shown: false
-    }
-  },
   components: {
     comment,
     toggler,
@@ -70,18 +69,23 @@ export default {
       required: true
     }
   },
+  setup (props, { emit }) {
+    const shown = ref(false)
+    const toggle = (isOpened) => {
+      shown.value = isOpened
+      if (isOpened && props.issues.length === 0) {
+        emit('loadContent')
+      }
+    }
+    return {
+      shown,
+      toggle
+    }
+  },
   computed: {
     normalDate () {
       const date = new Date(this.date)
       return date.toLocaleString('en-EN', { month: 'short', day: 'numeric' })
-    }
-  },
-  methods: {
-    toggle (isOpened) {
-      this.shown = isOpened
-      if (isOpened && this.issues.length === 0) {
-        this.$emit('loadContent')
-      }
     }
   }
 }
