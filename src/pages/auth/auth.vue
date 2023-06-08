@@ -40,15 +40,15 @@ export default {
       redirectToGhAuth: 'auth/getAuthCode',
       authUserByCode: 'auth/authUserByCode'
     })
-  },
-  async mounted () {
-    const code = new URLSearchParams(window.location.search).get('code')
-    if (code) {
-      const token = await this.authUserByCode(code)
-      localStorage.setItem('token', token)
-      this.$router.replace({ name: 'feeds' })
-    }
   }
+  // async mounted () {
+  // const code = new URLSearchParams(window.location.search).get('code')
+  // if (code) {
+  //   const token = await this.authUserByCode(code)
+  //   localStorage.setItem('token', token)
+  //   this.$router.replace({ name: 'feeds' })
+  // }
+  // }
 }
 </script>
 <style src="./auth.scss" lang="scss" scoped></style>

@@ -92,6 +92,12 @@ export default {
     }
   },
   async created () {
+    const code = new URLSearchParams(window.location.search).get('code')
+    if (code) {
+      const token = await this.authUserByCode(code)
+      localStorage.setItem('token', token)
+      this.$router.replace({ name: 'feeds' })
+    }
     await this.fetchTrendings()
     await this.fetchStarred({ limit: 10 })
   }
